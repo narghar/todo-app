@@ -1,0 +1,16 @@
+extends layout
+
+block content
+    h1 #{title}
+    form(method='POST', action='/boards/add')
+        #form-group
+            label Title:
+            input.form-control(name='name', type='text')
+        #form-group
+            label Image URL:
+            input.form-control(name='image', type='text')
+        #form-group
+            label Description:
+            textarea.form-control(name='desc')
+        br
+        input.btn.btn-primary(type='submit',value='Submit')

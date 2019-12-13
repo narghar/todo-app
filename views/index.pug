@@ -1,8 +1,25 @@
 extends layout
 
 block content
-    h1 #{title}
-    ul.list-group
-        each task, i in tasks
-            li.list-group-item
-                a(href="/tasks/"+task._id)= task.title
+
+    h1.text-center #{title}
+    .row
+        each board, i in boards
+            .col-sm-4
+                .thumbnail
+                    - let image = board.image
+                    img.board-image(src=image)
+                    .caption
+                    h3= board.name
+                    p= board.description
+                .row
+                    .col-xs-10
+                        - let id = board._id;
+                        input.form-control.task(name='title', type='text' placeholder="Add Task" data-id=id)
+                    .col-xs-2.text-right
+                        button.btn.btn-primary.addTask +
+                ul.list-group(data-id=id)
+                    each task, i in board['tasks']
+                        - let id = task._id;
+                        li.list-group-item(data-id=id)= task.title
+                             button.btn.btn-danger.removeTask -

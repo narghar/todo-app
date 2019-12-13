@@ -1,3 +1,15 @@
+.list-group {
+  margin-top: 20px;
+}
+.board-image {
+  max-height: 20rem;
+}
+.list-group-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .alert-error{
   color: #a94442;
   background-color: #f2dede;

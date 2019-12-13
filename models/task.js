@@ -6,13 +6,16 @@ let taskSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    author:{
-        type: String,
-        required: true
+    filled: {
+        type: Boolean,
+        default: false
     },
-    body:{
-        type: String,
-        required: true
+    author: {
+        id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
+        },
+        username: String
     }
 });
 
