@@ -104,28 +104,34 @@ router.post('/add', ensureAuthenticated, function (req, res) {
 // Delete Task
 router.delete('/:id', ensureAuthenticated, async function (req, res) {
 
-    console.log('hit')
     let query = {
         _id: req.body.id
     }
-    console.log(query);
+
     Task.findById(req.params.id, function (err, task) {
         task.remove(query, function (err) {
             if (err) {
                 console.log(err);
             } else {
-                Board.findById(req.body.boardId, async function (err, board) {
+                Board.findOneAndUpdate(req.body.boardId, {
+                    $pull: {
+                        tasks: req.body.id
+                    }
+                }, function (err, board) {
                     if (err) {
                         console.log(err);
                     } else {
-                        board.tasks = board.tasks.filter(e => e != req.body.id);
-                        await board.save();
+                        board.save();
+                        res.status(200).json({
+                            message: 'Removed'
+                        });
                     }
-            });
-        };
 
+                });
+            };
+        });
     });
-});
+
 });
 
 // // Get Single Task

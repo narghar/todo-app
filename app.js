@@ -14,6 +14,7 @@ mongoose.connect(config.database, {
   useUnifiedTopology: true,
 });
 let db = mongoose.connection;
+mongoose.set('useFindAndModify', false);
 
 // Check connection
 db.once("open", function() {
