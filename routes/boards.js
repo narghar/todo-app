@@ -63,7 +63,7 @@ router.delete('/:id', ensureAuthenticated, isBoardOwner, async function (req, re
         Task.findById(taskList[i], function (err, task) {
           if (err) {
             console.log("something broken with database");
-          } else {
+          } else if (task != null) {
             task.delete();
           }
         })
@@ -75,23 +75,29 @@ router.delete('/:id', ensureAuthenticated, isBoardOwner, async function (req, re
 });
 
 router.put('/coworker/', ensureAuthenticated, isBoardOwner, function (req, res) {
+  console.log(req.body);
   User.find({username: req.body.user}, async function(err, user) {
     if (user[0] === undefined) {
       return res.status(400).send("User not found");
     } else {
       await Board.findById(req.body.boardId, async function (err, board) {
-        if (req.session.passport.user == board.author.id) {
+        if (parseInt(user[0]._id, 16) === parseInt(board.author.id, 16)) {
+          console.log("2");
           return res.status(400).send("User has permission");
         }
         let permission = true;
         for (let i = 0; i < board.coworkers.length; i++) {
-          console.log(board.coworkers[i]);
-          if (board.coworkers[i] == user._id ) {
+          console.log(parseInt(board.coworkers[i], 16));
+          console.log(parseInt(user._id,16));
+          console.log(parseInt(board.coworkers[i], 16) === parseInt(user[0]._id, 16));
+          if (parseInt(board.coworkers[i], 16) === parseInt(user[0]._id,16)) {
             permission = false;
+            console.log("3");
             return res.status(400).send('User alredy has permission');
           }
         }  
-        if (permission) { 
+        if (permission) {
+          console.log("??")
           board.coworkers.push(user[0]._id);
           board.coworkersName.push({"username": user[0].username});
           await board.save() }

@@ -51,8 +51,15 @@ async function addCoworker(boardId) {
 }
 
 async function deleteBoard(boardId) {
+  const boardToDelete = {
+    boardId: boardId
+  }
   const response = await fetch('/boards/' + boardId, {
-    method: "delete"
+    method: "delete",
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(boardToDelete)
   });
   console.log(response);
   location.reload(true);
