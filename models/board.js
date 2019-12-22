@@ -16,6 +16,17 @@ const boardSchema = new mongoose.Schema({
          type: mongoose.Schema.Types.ObjectId,
          ref: "Task"
       }
+   ],
+   coworkers: [
+      {
+         type: mongoose.Schema.Types.ObjectId,
+         ref: "User",
+      },
+   ],
+   coworkersName: [
+      {
+         username: String
+      }
    ]
 });
 

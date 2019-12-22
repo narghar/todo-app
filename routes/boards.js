@@ -1,7 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const ensureAuthenticated = require("../middleware");
+const ensureAuthenticated = require("../middleware/ensureAuthenticated");
+const isBoardOwner = require("../middleware/isBoardOwner");
 const Board = require("../models/board");
+const Task = require('../models/task');
+const User = require('../models/user');
 
 router.get("/", ensureAuthenticated, function(req, res) {
   res.redirect("/");
@@ -48,5 +51,60 @@ router.post("/add", ensureAuthenticated,  async (req, res) => {
 
   }
 });
+
+router.delete('/:id', ensureAuthenticated, isBoardOwner, async function (req, res) {
+  await Board.findById(req.params.id, function(err, board)  {
+    if (err) {
+      res.status(400).send("Invalid board Id");
+    } 
+    else {
+      const taskList = board.tasks;
+      for (let i = 0; i  < taskList.length; i++) {
+        Task.findById(taskList[i], function (err, task) {
+          if (err) {
+            console.log("something broken with database");
+          } else if (task != null) {
+            task.delete();
+          }
+        })
+      }
+      board.delete();
+      res.status(200).send();
+    }
+  });
+});
+
+router.put('/coworker/', ensureAuthenticated, isBoardOwner, function (req, res) {
+  console.log(req.body);
+  User.find({username: req.body.user}, async function(err, user) {
+    if (user[0] === undefined) {
+      return res.status(400).send("User not found");
+    } else {
+      await Board.findById(req.body.boardId, async function (err, board) {
+        if (parseInt(user[0]._id, 16) === parseInt(board.author.id, 16)) {
+          console.log("2");
+          return res.status(400).send("User has permission");
+        }
+        let permission = true;
+        for (let i = 0; i < board.coworkers.length; i++) {
+          console.log(parseInt(board.coworkers[i], 16));
+          console.log(parseInt(user._id,16));
+          console.log(parseInt(board.coworkers[i], 16) === parseInt(user[0]._id, 16));
+          if (parseInt(board.coworkers[i], 16) === parseInt(user[0]._id,16)) {
+            permission = false;
+            console.log("3");
+            return res.status(400).send('User alredy has permission');
+          }
+        }  
+        if (permission) {
+          console.log("??")
+          board.coworkers.push(user[0]._id);
+          board.coworkersName.push({"username": user[0].username});
+          await board.save() }
+          res.status(200).send("HAHAHHA");
+        });
+      }
+    })
+  });
 
 module.exports = router;

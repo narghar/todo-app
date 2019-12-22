@@ -6,6 +6,6 @@ block content
     p= task.body
     hr
     if user
-        if user.id ==task.author
+        if user.id == task.author
             a.btn.btn-default(href='/tasks/edit/'+task._id) Edit
             a.btn.btn-danger.delete-task(href='#',data-id=task._id) Delete

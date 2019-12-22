@@ -7,10 +7,14 @@ block content
         each board, i in boards
             .col-sm-4
                 .thumbnail
+                    -let id1 = board._id;
+                    button.btn.btn-danger.removeBoard(data-id=id1) remove
+                    button.btn.btn-danger.addCoworker(data-id=id1) addCoworker
                     - let image = board.image
                     img.board-image(src=image)
                     .caption
                     h3= board.name
+                    h2= board.author.username
                     p= board.description
                 .row
                     .col-xs-10
@@ -21,5 +25,46 @@ block content
                 ul.list-group(data-id=id)
                     each task, i in board['tasks']
                         - let id = task._id;
-                        li.list-group-item(data-id=id)= task.title
-                             button.btn.btn-danger.removeTask -
+                        if task.filled
+                            li.list-group-item.complited(data-id=id)= task.title
+                                <h5> complited </h5>
+                                button.btn.btn-danger.removeTask -                          
+                        else
+                            li.list-group-item(data-id=id)= task.title
+                                button.btn.btn-danger.completeTask complete Task
+                                button.btn.btn-danger.removeTask - 
+                ul.list-group.coworkers
+                    each coworker, i in board['coworkersName']
+                        li.list-group-item= coworker.username
+                            button.btn.btn-danger.removeCoworker -
+    .row
+        each boardCo, i in boardsCo
+            .col-sm-4
+                .thumbnail
+                    -let id1 = boardCo._id;
+                    - let image = boardCo.image
+                    img.board-image(src=image)
+                    .caption
+                    h3= boardCo.name
+                    h2= boardCo.author.username
+                    p= boardCo.description
+                .row
+                    .col-xs-10
+                        - let id = boardCo._id;
+                        input.form-control.task(name='title', type='text' placeholder="Add Task" data-id=id)
+                    .col-xs-2.text-right
+                        button.btn.btn-primary.addTask +
+                ul.list-group(data-id=id)
+                    each taskCo, i in boardCo['tasks']
+                        - let idCo = taskCo._id;
+                        if taskCo.filled
+                            li.list-group-item.complited(data-id=idCo)= taskCo.title
+                                <h5> complited </h5>
+                                button.btn.btn-danger.removeTask -                          
+                        else
+                            li.list-group-item(data-id=id)= taskCo.title
+                                button.btn.btn-danger.completeTask complete Task
+                                button.btn.btn-danger.removeTask - 
+                ul.list-group.coworkers
+                    each coworkerCo, i in boardCo['coworkersName']
+                        li.list-group-item= coworkerCo.username

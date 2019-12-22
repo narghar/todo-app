@@ -16,7 +16,7 @@ let taskSchema = mongoose.Schema({
             ref: "User"
         },
         username: String
-    }
+    },
 });
 
 let Task = module.exports = mongoose.model('Task', taskSchema);

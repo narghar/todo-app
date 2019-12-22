@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const Board = require("../models/board");
-const ensureAuthenticated = require('../middleware');
+const ensureAuthenticated = require('../middleware/ensureAuthenticated');
+const canCompliteTasks = require('../middleware/canCompliteTasks');
 
 // Task Model
 let Task = require('../models/task');
@@ -10,7 +11,7 @@ let User = require('../models/user');
 
 
 // Add Submit POST Route
-router.post('/add', ensureAuthenticated, function (req, res) {
+router.post('/add', ensureAuthenticated, canCompliteTasks, function (req, res) {
 
     Board.findById(req.body.boardId, async function (err, board) {
         if (err) {
@@ -19,12 +20,13 @@ router.post('/add', ensureAuthenticated, function (req, res) {
         } else {
             let task = new Task({
                 title: req.body.name,
+                filled: false,
                 author: {
                     id: req.user._id,
                     username: req.user.username
                 }
             });
-
+            
             await task.save();
             board.tasks.push(task);
             await board.save();
@@ -40,6 +42,18 @@ router.post('/add', ensureAuthenticated, function (req, res) {
     });
 });
 
+router.put('/complete', ensureAuthenticated, canCompliteTasks, function (req, res) {
+    Task.findById(req.body.id, async function(err, task) {
+        if(err) {
+            console.log(err)
+            res.redirect("/");
+        } else {
+            task.filled = true;
+            await task.save();
+            res.status(200).send();
+        }
+    })
+})
 
 // req.checkBody(req.body.name,'Title is required').notEmpty();
 //req.checkBody('author','Author is required').notEmpty();
@@ -102,7 +116,7 @@ router.post('/add', ensureAuthenticated, function (req, res) {
 // });
 
 // Delete Task
-router.delete('/:id', ensureAuthenticated, async function (req, res) {
+router.delete('/:id', ensureAuthenticated, canCompliteTasks, async function (req, res) {
 
     let query = {
         _id: req.body.id

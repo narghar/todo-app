@@ -7,7 +7,7 @@ const flash = require("connect-flash");
 const session = require("express-session");
 const passport = require("passport");
 const config = require("./config/database");
-const ensureAuthenticated = require("./middleware");
+const ensureAuthenticated = require("./middleware/ensureAuthenticated");
 
 mongoose.connect(config.database, {
   useNewUrlParser: true,
@@ -100,12 +100,15 @@ app.get("/", ensureAuthenticated, function(req, res) {
     if(err){
         console.log(err);
     } else {
-          res.render("index", {
-            title: "Boards",
-            boards: boards
-          });
-        }
+      Board.find({'coworkers': {"$in": [req.user._id]}}).populate("tasks").exec(function(err, boardsCo) {
+        res.render("index", {
+          title: "Boards",
+          boards: boards,
+          boardsCo: boardsCo
+      })
       });
+    }
+  });
 });
 
   // Board.find({ 'author.id': req.user._id }, function(err, boards) {
