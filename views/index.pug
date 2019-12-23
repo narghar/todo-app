@@ -1,21 +1,20 @@
 extends layout
 
 block content
-
     h1.text-center #{title}
     .row
         each board, i in boards
             .col-sm-4
                 .thumbnail
                     -let id1 = board._id;
-                    button.btn.btn-danger.removeBoard(data-id=id1) remove
-                    button.btn.btn-danger.addCoworker(data-id=id1) addCoworker
                     - let image = board.image
                     img.board-image(src=image)
                     .caption
-                    h3= board.name
-                    h2= board.author.username
+                    h2= board.name
+                    h4= 'Added by ' + board.author.username
                     p= board.description
+                    .rm-btn
+                        button.btn.btn-danger.removeBoard(data-id=id1) remove
                 .row
                     .col-xs-10
                         - let id = board._id;
@@ -27,16 +26,26 @@ block content
                         - let id = task._id;
                         if task.filled
                             li.list-group-item.complited(data-id=id)= task.title
-                                <h5> complited </h5>
+                                h5 complited
                                 button.btn.btn-danger.removeTask -                          
                         else
                             li.list-group-item(data-id=id)= task.title
-                                button.btn.btn-danger.completeTask complete Task
-                                button.btn.btn-danger.removeTask - 
+                                button.btn.btn-success.completeTask complete Task
+                                button.btn.btn-danger.removeTask -
+                .row.co-btn
+                    .col-xs-6
+                        h3 Co workers:
+                    .col-xs-3
+                                button.btn.btn-primary.addCoworker(data-id=id1) addCoworker
                 ul.list-group.coworkers
                     each coworker, i in board['coworkersName']
                         li.list-group-item= coworker.username
                             button.btn.btn-danger.removeCoworker -
+
+    .row
+        hr
+        .col-sm-12
+            h3 Boards shared for you
     .row
         each boardCo, i in boardsCo
             .col-sm-4
@@ -46,7 +55,7 @@ block content
                     img.board-image(src=image)
                     .caption
                     h3= boardCo.name
-                    h2= boardCo.author.username
+                    h4= 'Created by ' + boardCo.author.username
                     p= boardCo.description
                 .row
                     .col-xs-10
@@ -59,12 +68,12 @@ block content
                         - let idCo = taskCo._id;
                         if taskCo.filled
                             li.list-group-item.complited(data-id=idCo)= taskCo.title
-                                <h5> complited </h5>
-                                button.btn.btn-danger.removeTask -                          
+                                h5 complited
+                                button.btn.btn-danger.removeTask -
                         else
-                            li.list-group-item(data-id=idCo)= taskCo.title
+                            li.list-group-item(data-id=id)= taskCo.title
                                 button.btn.btn-danger.completeTask complete Task
-                                button.btn.btn-danger.removeTask - 
+                                button.btn.btn-danger.removeTask -
                 ul.list-group.coworkers
                     each coworkerCo, i in boardCo['coworkersName']
                         li.list-group-item= coworkerCo.username

@@ -25,3 +25,12 @@
 .complited {
   background-color: lightgreen;  
 }
+.row.co-btn{
+  display:flex ;
+  align-items: center;
+}
+.rm-btn{
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 10px;
+}
