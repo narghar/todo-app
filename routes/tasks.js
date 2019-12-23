@@ -43,7 +43,9 @@ router.post('/add', ensureAuthenticated, canCompliteTasks, function (req, res) {
 });
 
 router.put('/complete', ensureAuthenticated, canCompliteTasks, function (req, res) {
+    console.log(req.body.id);
     Task.findById(req.body.id, async function(err, task) {
+        console.log(task);
         if(err) {
             console.log(err)
             res.redirect("/");
