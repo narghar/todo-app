@@ -23,6 +23,7 @@ async function completeTask(event) {
     id: listItem.dataset.id,
     boardId: ul.dataset.id
   }
+  console.log(value);
   const response = await fetch('/tasks/complete/', {
     method: "put",
     headers: {
