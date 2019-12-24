@@ -4,6 +4,8 @@
 
 .board-image {
   max-height: 20rem;
+  width: 100%;
+  object-fit: cover;
 }
 
 .list-group-item {
