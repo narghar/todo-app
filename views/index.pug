@@ -29,22 +29,16 @@ block content
                         if task.filled
                             li.list-group-item.complited(data-id=id)= task.title
                                 h5 complited
-                                button.btn.btn-danger.removeTask
-                                    span.glyphicon.glyphicon-trash
+                                button.btn.btn-danger.removeTask.glyphicon.glyphicon-trash
                         else
                             li.list-group-item(data-id=id)= task.title
-                                .tasks-btn
-                                    button.btn.btn-success.completeTask
-                                        span.glyphicon.glyphicon-ok
-                                    button.btn.btn-danger.removeTask
-                                        span.glyphicon.glyphicon-trash
+                                button.btn.btn-success.completeTask.glyphicon.glyphicon-ok
+                                button.btn.btn-danger.removeTask.glyphicon.glyphicon-trash
                 .row.co-worker-container
                     .col-xs-8
                         h3 Co workers:
                     .col-xs-4
-                        button.btn.btn-primary.addCoworker(data-id=id1)
-                            span.glyphicon.glyphicon-user
-                            span.glyphicon.glyphicon-plus
+                        button.btn.btn-primary.addCoworker(data-id=id1).glyphicon.glyphicon-plus
                 ul.list-group.coworkers
                     each coworker, i in board['coworkersName']
                         li.list-group-item= coworker.username
@@ -69,23 +63,18 @@ block content
                         - let id = boardCo._id;
                         input.form-control.task(name='title', type='text' placeholder="Add Task" data-id=id)
                     .col-xs-4.text-right
-                        button.btn.btn-primary.addTask
-                             span.glyphicon.glyphicon-plus
+                        button.btn.btn-primary.addTask.glyphicon.glyphicon-plus
                 ul.list-group(data-id=id)
                     each taskCo, i in boardCo['tasks']
                         - let idCo = taskCo._id;
                         if taskCo.filled
                             li.list-group-item.complited(data-id=idCo)= taskCo.title
                                 h5 complited
-                                button.btn.btn-danger.removeTask
-                                    span.glyphicon.glyphicon-trash
+                                button.btn.btn-danger.removeTask.glyphicon.glyphicon-trash
                         else
-                            li.list-group-item(data-id=id)= taskCo.title
-                                .tasks-btn
-                                    button.btn.btn-success.completeTask
-                                        span.glyphicon.glyphicon-ok
-                                    button.btn.btn-danger.removeTask
-                                         span.glyphicon.glyphicon-trash
+                            li.list-group-item(data-id=idCo)= taskCo.title
+                                button.btn.btn-success.completeTask.glyphicon.glyphicon-ok
+                                button.btn.btn-danger.removeTask.glyphicon.glyphicon-trash
                 ul.list-group.coworkers
                     each coworkerCo, i in boardCo['coworkersName']
                         li.list-group-item= coworkerCo.username

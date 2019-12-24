@@ -3,17 +3,16 @@ const plusButton = document.querySelectorAll('.addTask');
 const tasksLists = document.querySelectorAll('.list-group');
 const boards = document.querySelectorAll('.row');
 
-boards.forEach(function(board) {board.addEventListener('click', (e) => {
-  if (event.target.className.includes("removeBoard")) {
-    deleteBoard(event.target.getAttribute("data-id"))   
-  }
-  else if (event.target.className.includes("addCoworker")) {
-    addCoworker(event.target.getAttribute("data-id"))
-  }
-  else if (event.target.className.includes("completeTask")) {
-    completeTask(event);
-  }
-})
+boards.forEach(function (board) {
+  board.addEventListener('click', (e) => {
+    if (event.target.className.includes("removeBoard")) {
+      deleteBoard(event.target.getAttribute("data-id"))
+    } else if (event.target.className.includes("addCoworker")) {
+      addCoworker(event.target.getAttribute("data-id"))
+    } else if (event.target.className.includes("completeTask")) {
+      completeTask(event);
+    }
+  })
 });
 
 async function completeTask(event) {
@@ -125,8 +124,8 @@ function updateList(data) {
 }
 
 // Listeners for remove Task
-tasksLists.forEach(function(list) {
-  list.addEventListener('click', function(el) {
+tasksLists.forEach(function (list) {
+  list.addEventListener('click', function (el) {
     if (el.target.classList.contains('removeTask')) {
       let listItem = el.target.parentNode;
       let ul = listItem.parentNode;
@@ -167,4 +166,3 @@ async function removeTask(value, listItem, ul) {
     ul.removeChild(listItem);
   }
 }
-

@@ -1,50 +1,55 @@
 .list-group {
   margin-top: 20px;
 }
+
 .board-image {
   max-height: 20rem;
 }
+
 .list-group-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.alert-error{
+.alert-error {
   color: #a94442;
   background-color: #f2dede;
   border-color: #ebccd1;
 }
 
-.alert-success_msg{
+.alert-success_msg {
   color: #3c763d;
   background-color: #dff0d8;
   border-color: #d6e9c6;
 }
 
 .complited {
-  background-color: lightgreen;  
+  background-color: lightgreen;
 }
 
-.rm-btn{
+.rm-btn {
   display: flex;
   justify-content: flex-end;
   padding-right: 10px;
 }
 
-.tasks-btn{
+.tasks-btn {
   display: flex;
   justify-content: flex-end;
 }
-button.completeTask{
-  margin-right: 10%;
+
+button.completeTask {
+  margin-right: 5%;
+  margin-left: auto;
 }
 
-button.addCoworker{
-  display: flex ;
-  justify-self: flex-end ;
+button.addCoworker {
+  display: flex;
+  justify-self: flex-end;
 }
-.co-worker-container{
+
+.co-worker-container {
   display: flex;
   align-items: center;
 }
